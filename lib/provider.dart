@@ -15,6 +15,8 @@ final confirmPasswordVisibilityProviderSignUp = StateProvider<bool>((ref) {
   return false;
 });
 
+
+
 // Query entered by user in Search bar
 final searchQuery = StateProvider<String>((ref) {
   return '';

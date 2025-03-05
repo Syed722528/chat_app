@@ -1,3 +1,4 @@
+import 'package:chat_app/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,6 +16,7 @@ class SignupPage extends StatelessWidget {
   final email = TextEditingController();
 
   final password = TextEditingController();
+  final confirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +92,7 @@ class SignupPage extends StatelessWidget {
                   confirmPasswordVisibilityProviderSignUp,
                 );
                 return TextFormField(
+                  controller: confirmPassword,
                   obscureText: !isPasswordVisible,
                   validator: passwordValidator,
                   keyboardType: TextInputType.text,
@@ -114,9 +117,55 @@ class SignupPage extends StatelessWidget {
             ),
             Consumer(
               builder: (context, ref, child) {
+                final auth = ref.watch(authProvider);
+                ref.listen(authProvider, (previous, next) {
+                  next.whenOrNull(
+                    error: (err, _) {
+                      showDialog(
+                        context: context,
+                        builder:
+                            (context) => AlertDialog(
+                              backgroundColor: AppColors.veryLightBlue,
+                              title: Text(
+                                'Account creation Failed',
+                                style: TextStyle(color: AppColors.darkBlue),
+                              ),
+                              content: Text(
+                                err.toString(),
+                                style: TextStyle(color: AppColors.normalBlue),
+                              ),
+                              actions: [
+                                TextButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: WidgetStatePropertyAll(
+                                      AppColors.darkBlue,
+                                    ),
+                                    foregroundColor: WidgetStatePropertyAll(
+                                      AppColors.lightBlue,
+                                    ),
+                                  ),
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Okay'),
+                                ),
+                              ],
+                            ),
+                      );
+                    },
+                  );
+                });
                 return GestureDetector(
                   onTap: () {
-                    if (formKey.currentState!.validate()) {}
+                    if (formKey.currentState!.validate()) {
+                      if (password.text != confirmPassword.text) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Password do not match')),
+                        );
+                      } else {
+                        ref
+                            .read(authProvider.notifier)
+                            .signUp(email.text, password.text);
+                      }
+                    }
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -129,9 +178,11 @@ class SignupPage extends StatelessWidget {
                           color: AppColors.darkBlue,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Text(
-                          'Create Account',
-                          style: TextStyle(color: AppColors.veryLightBlue),
+                        child: auth.when(
+                          data: (_) => Text('Create account'),
+                          error: (err, _) => Text('Retry'),
+
+                          loading: () => const CircularProgressIndicator(),
                         ),
                       ),
                     ],
