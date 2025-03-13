@@ -48,9 +48,6 @@ lib/
 │-- widgest/  # UI screens
 ```
 
-## Sample Video
-Check out the sample demo video:
-<video src="[Demo Video](https://github.com/Syed722528/chat_app.git/sample/chatapp.mp4)" controls width="600"></video>
 ## Future Improvements
 - Group Chats
 - Voice & Video Calls
