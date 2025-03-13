@@ -1,3 +1,5 @@
+import 'package:chat_app/pages/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/app_colors.dart';
@@ -18,23 +20,33 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: AppColors.lightBlue,
-      body: SafeArea(
-        child: Center(
-          child: ListWheelScrollView(
-            controller: _scrollController,
-            itemExtent: 520,
-            diameterRatio: 1.5, // Adjust the "wheel" curvature
-            perspective: 0.003,
-            children: [
-              LoginPage(onSwitch: () => scrollToIndex(1)),
-              SignupPage(onSwitch: () => scrollToIndex(0)),
-            ],
-          ),
-        ),
-      ),
+    return StreamBuilder(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return HomePage();
+        } else {
+          return Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: AppColors.lightBlue,
+            body: SafeArea(
+              child: Center(
+                child: ListWheelScrollView(
+                  controller: _scrollController,
+                  itemExtent: 520,
+
+                  diameterRatio: 1.5, // Adjust the "wheel" curvature
+                  perspective: 0.003,
+                  children: [
+                    LoginPage(onSwitch: () => scrollToIndex(1)),
+                    SignupPage(onSwitch: () => scrollToIndex(0)),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

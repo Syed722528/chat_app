@@ -1,12 +1,12 @@
 // Model to display Chat Item on HomePage
 class ChatItem {
-  final String name;
-  final String message;
+  final String displayName;
+  final String lastMessage;
   final String time;
   final int unreadCount;
   const ChatItem({
-    required this.name,
-    required this.message,
+    required this.displayName,
+    required this.lastMessage,
     required this.time,
     required this.unreadCount,
   });
@@ -30,7 +30,4 @@ class SendMessage {
   );
 }
 
-enum MessageType { text, image, video,file }
-
-
-
+enum MessageType { text, image, video, file }

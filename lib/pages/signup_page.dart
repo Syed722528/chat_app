@@ -7,7 +7,7 @@ import '../utils/app_colors.dart';
 import '../utils/validators.dart';
 import '../widgets/custom_input_field_auth.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends ConsumerWidget {
   final VoidCallback onSwitch;
   static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -19,7 +19,10 @@ class SignupPage extends StatelessWidget {
   final confirmPassword = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    Future.microtask(() {
+      ref.read(signupProvider.notifier).reset();
+    });
     return Container(
       width: MediaQuery.of(context).size.width * 0.90,
       padding: EdgeInsets.all(10),
@@ -117,8 +120,8 @@ class SignupPage extends StatelessWidget {
             ),
             Consumer(
               builder: (context, ref, child) {
-                final auth = ref.watch(authProvider);
-                ref.listen(authProvider, (previous, next) {
+                final auth = ref.watch(signupProvider);
+                ref.listen(signupProvider, (previous, next) {
                   next.whenOrNull(
                     error: (err, _) {
                       showDialog(
@@ -162,7 +165,7 @@ class SignupPage extends StatelessWidget {
                         );
                       } else {
                         ref
-                            .read(authProvider.notifier)
+                            .read(signupProvider.notifier)
                             .signUp(email.text, password.text);
                       }
                     }
