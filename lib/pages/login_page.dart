@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../controllers/auth_controller.dart';
-import '../provider.dart';
+import '../utils/provider.dart';
 import '../utils/validators.dart';
 import '../widgets/custom_input_field_auth.dart';
 

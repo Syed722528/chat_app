@@ -2,7 +2,7 @@ import 'package:chat_app/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../provider.dart';
+import '../utils/provider.dart';
 import '../utils/app_colors.dart';
 import '../utils/validators.dart';
 import '../widgets/custom_input_field_auth.dart';

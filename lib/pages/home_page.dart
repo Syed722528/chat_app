@@ -2,7 +2,7 @@ import 'package:chat_app/controllers/auth_controller.dart';
 import 'package:chat_app/controllers/user_controller.dart';
 import 'package:chat_app/pages/chat_page.dart';
 import 'package:chat_app/pages/search_page.dart';
-import 'package:chat_app/provider.dart';
+import 'package:chat_app/utils/provider.dart';
 import 'package:chat_app/services/chat_service.dart';
 import 'package:chat_app/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
