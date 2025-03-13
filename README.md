@@ -50,7 +50,7 @@ lib/
 
 ## Sample Video
 Check out the sample demo video:
-<video src="sample/demo.mp4" controls width="600"></video>
+<video src="sample/chatapp.mp4" controls width="600"></video>
 ## Future Improvements
 - Group Chats
 - Voice & Video Calls
